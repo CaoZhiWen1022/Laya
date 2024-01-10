@@ -73,4 +73,57 @@ export default class VecUtil {
             + d * Math.pow(t, 3);
     }
 
+    /**
+	 * 格式化数字
+	 * @param num  数字
+	 */
+	public static formatNum(num: number): string {
+		const value = num < 100000 ? num : num < 100000000 ? ~~(num / 1000) / 10 : ~~(num / 10000000) / 10;
+		const strType = num < 100000 ? "" : num < 100000000 ? "万" : "亿";
+		return value + strType;
+	}
+	/**
+	 * 格式化数字 如12300 = 1.23万
+	 * @param num  数字
+	 * @param isRound 是否四舍五入
+	 */
+	public static frameValueTrillion(num: number, isRound: boolean = false): string {
+
+		let strType: string = "";
+		var nFrame: number = 1;
+		if (num < 0) {
+			num = Math.abs(num);
+			nFrame = -1;
+		}
+
+		var value: number = Number(num);
+		if (num < 100000) {
+		} else if (num < 100000000) {
+			// value = value / 10000;
+			value = ~~(value / 1000) / 10;
+			strType = "万";
+		} else {
+			value = ~~(value / 10000000) / 10;
+			strType = "亿";
+		}
+		if (isRound) {
+			if (value > 100)
+				value = Math.round(value);
+			else if (value > 10)
+				value = Math.round(value * 10) / 10;
+			else
+				value = Math.round(value * 100) / 100;
+		} else {
+			if (value > 100)
+				value = Math.floor(value);
+			else if (value > 10)
+				value = Math.floor(value * 10) / 10;
+			else
+				value = Math.floor((value + 0.001) * 100) / 100;
+		}
+		value *= nFrame;
+		let str = value.toString();
+		return str + strType;
+	}
+
 }
