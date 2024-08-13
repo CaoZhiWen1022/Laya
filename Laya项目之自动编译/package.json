@@ -41,14 +41,7 @@
       "test": "echo \"Error: no test specified\" && exit 1",
       "build": " node --max_old_space_size=4096 .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\compile.js compile",
       "libs": " node --max_old_space_size=4096 .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\compile.js nobuildmain",
-      "watch": " node --max_old_space_size=8192 .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\compile.js watch",
-      "watchlibs": " node --max_old_space_size=4096 .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\compile.js watchlibs",
-      "battle": "node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\battle.js compile",
-      "v8new": "node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\v8core.js es5 compile && node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\battle.js es5 compile && node sync_debug",
-      "v8ci":"node sync_debug ci",
-      "v8battle": "node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\battle.js es5 compile",
-      "onHook": "node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\onHook.js compile",
-      "v8onHook": "node .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\onHook.js es5 compile"
+      "watch": " node --max_old_space_size=8192 .\\node_modules\\gulp\\bin\\gulp.js --gulpfile=.laya\\compile.js watch"
     },
     "author": "Civilization",
     "license": "ISC"
