@@ -40,7 +40,7 @@ export class UIBase implements IUIBase {
     openSuccess(): void {
         this.openParam.openCall?.run();
         this.resize();
-        this.m_ui.displayObject.on(Laya.Event.RESIZE, this, this.resize);
+        Laya.stage.on(Laya.Event.RESIZE, this, this.resize);
         PopupQueueMgr.checkQueue();
     }
 
@@ -48,7 +48,7 @@ export class UIBase implements IUIBase {
         if (!this.allowClose) return;
         if (this.isDisposed) return;
         Laya.Tween.clearAll(this.m_ui);
-        this.m_ui.displayObject.off(Laya.Event.RESIZE, this, this.resize);
+        Laya.stage.off(Laya.Event.RESIZE, this, this.resize);
         this.m_ui.dispose();
         this.closeSuccess();
     }

@@ -4,6 +4,7 @@ import { IUIBase } from "./IUIBase";
 import { openUIparam } from "./OpenUIParam";
 import { PopupQueueMgr } from "./PopupQueueMgr";
 import { UIID, UILayer, UIType } from "./UIEnum";
+import { UIPanel } from "./UIPanel";
 import { UIPopup } from "./UIPopup";
 import { UIRegister } from "./UIRegister";
 import { UIResource } from "./UIResourceMgr";
@@ -185,9 +186,12 @@ export class UIMgr {
         })
     }
 
-    /** 获取当前打开的全屏界面，(不包含加载中) */
-    static getCurPanel() {
-        let curPanel = UIMgr.openUIs.find(ui => ui.UIRegisterInfo.UIType == UIType.Panel);
+    /** 获取当前打开的最上层全屏界面，(不包含加载中) */
+    static getCurTopPanel() {
+        let curPanel: UIPanel = null;
+        UIMgr.openUIs.forEach(ui => {
+            if (ui.UIRegisterInfo.UIType == UIType.Panel) curPanel = ui as UIPanel;
+        })
         return curPanel
     }
 

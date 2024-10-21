@@ -49,7 +49,7 @@ export class PopupQueueMgr {
         for (let i = 0; i < PopupQueueMgr.queue.length; i++) {//找到一个可以打开的弹窗
             const popup = PopupQueueMgr.queue[i];
             let popupInfo = UIRegister.getUIInfo(popup.UIID);
-            let curPanel = UIMgr.getCurPanel();
+            let curPanel = UIMgr.getCurTopPanel();
             let curPopupPriority = UIMgr.getCurTopPopup() ? UIMgr.getCurTopPopup().UIRegisterInfo.popupPriority : -1;
             if (popupInfo.popupPriority > curPopupPriority
                 && (!popupInfo.popupDependPanel || popupInfo.popupDependPanel.length == 0 || popupInfo.popupDependPanel.indexOf(curPanel.UIID) >= 0)
