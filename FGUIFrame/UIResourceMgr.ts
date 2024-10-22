@@ -7,15 +7,14 @@ export class UIResource {
             let successNum = 0;
             let check = () => {
                 if (successNum == pkgNames.length) {
-                    resolve(true);
                     completeHandler?.run();
+                    resolve(true);
                 }
             }
             pkgNames.forEach(pkgName => {
                 let pkgUrl = 'resources/UI/' + pkgName;
                 if (UIResource.loadedPackage.indexOf(pkgName) == -1) {
                     console.log(`load package ${pkgUrl}`);
-
                     fgui.UIPackage.loadPackage(pkgUrl, (pkg) => {
                         UIResource.loadedPackage.push(pkgName);
                         successNum++;

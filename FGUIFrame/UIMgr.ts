@@ -54,6 +54,7 @@ export class UIMgr {
             }
         }
         UIMgr.openings.push(param.UIID);
+        this.setFullScreenMaskPanelVisible(true);
         //加载依赖
         await Promise.all([
             UIResource.loadPackage(UIRegisterInfo.uiPackage),
@@ -63,14 +64,16 @@ export class UIMgr {
         let openSuccess = ui.open(param);
         if (openSuccess) {
             UIMgr.openUIs.push(ui);
+            UIMgr.openings.splice(UIMgr.openings.indexOf(param.UIID), 1);
             ui.openSuccess();
             let layer = UIMgr.getUILayer(UIRegisterInfo.UILayer);
             layer.addChild(ui.m_ui);
         } else {
             console.error(`ui ${param.UIID} open failed`);
+            UIMgr.openings.splice(UIMgr.openings.indexOf(param.UIID), 1);
             param.errorCall?.run();
         }
-        UIMgr.openings.splice(UIMgr.openings.indexOf(param.UIID), 1);
+        this.setFullScreenMaskPanelVisible(false);
     }
 
     /** 打开ui实例,作用只是显示并添加到打开列表，并执行openSuccess */
@@ -152,7 +155,7 @@ export class UIMgr {
 
     /** 设置全屏遮罩 */
     static setFullScreenMaskPanelVisible(visible: boolean) {
-        UIMgr.fullScreenMaskPanel.visible = visible;
+        UIMgr.fullScreenMaskPanel && UIMgr.fullScreenMaskPanel.setVisible(visible);
     }
 
 

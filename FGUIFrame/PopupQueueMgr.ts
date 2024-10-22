@@ -63,19 +63,6 @@ export class PopupQueueMgr {
     }
 
     private static show(param: openUIparam) {
-        let registerInfo = UIRegister.getUIInfo(param.UIID);
-        if (!registerInfo.isSamePriorityMeanwhileOpen) {
-            let curPopupAll = UIMgr.getCurPopupAll();
-            curPopupAll.forEach(ui => {
-                UIMgr.close(ui.UIID, false);
-            })
-            param.closeCall2 = Laya.Handler.create(null, () => {
-                curPopupAll.forEach(ui => {
-                    UIMgr.openUIIns(ui);
-                })
-            })
-        }
-
         param.popuoQueueOpen = true;
         UIMgr.open(param);
         PopupQueueMgr.queue.splice(PopupQueueMgr.queue.indexOf(param), 1);

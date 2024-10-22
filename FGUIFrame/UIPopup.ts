@@ -1,6 +1,6 @@
 import UI_PopupMaskPanel from "../UIExport/common/UI_PopupMaskPanel";
 import { UIBase } from "./UIBase";
-import { UILayer } from "./UIEnum";
+import { UILayer, UIType } from "./UIEnum";
 import { UIMgr } from "./UIMgr";
 
 export class UIPopup extends UIBase {
@@ -16,6 +16,7 @@ export class UIPopup extends UIBase {
     /** 是否开启动画，默认开启，会修改弹窗锚点 */
     isOpenAni: boolean = true;
 
+    thisHideOtherPopup: UIPopup[] = [];
     resize(): void {
         //居中适配
         let x = Laya.stage.width / 2 - this.m_ui.width / 2;
@@ -27,6 +28,7 @@ export class UIPopup extends UIBase {
         super.openSuccess();
         this.initMask()
         this.openAni();
+        this.hideOtherPopup();
         UIMgr.refreshPopupMask();
     }
 
@@ -58,7 +60,7 @@ export class UIPopup extends UIBase {
     closeSuccess(): void {
         super.closeSuccess();
         this.popupMask?.dispose();
-        this.openParam.closeCall2?.run();
+        this.showThisHideOtherPopup();
         UIMgr.refreshPopupMask();
     }
 
@@ -66,5 +68,35 @@ export class UIPopup extends UIBase {
         super.hide();
         if (this.popupMask) this.popupMask.visible = false;
         UIMgr.refreshPopupMask();
+    }
+
+    private hideOtherPopup(): void {
+        //关闭其他弹窗
+        let allPopup = UIMgr.getCurPopupAll();
+        for (let i = 0; i < allPopup.length; i++) {
+            const element = allPopup[i];
+            if (element != this) {
+                let isclose = false
+                if (this.UIRegisterInfo.isSamePriorityMeanwhileOpen) {
+                    if (element.UIRegisterInfo.popupPriority != this.UIRegisterInfo.popupPriority) {
+                        isclose = true;
+                    }
+                } else {
+                    isclose = true;
+                }
+                if (isclose) {
+                    UIMgr.close(element.UIID, false);
+                    this.thisHideOtherPopup.push(element);
+                }
+            }
+        }
+    }
+
+    private showThisHideOtherPopup(): void {
+        for (let i = 0; i < this.thisHideOtherPopup.length; i++) {
+            const element = this.thisHideOtherPopup[i];
+            UIMgr.openUIIns(element);
+        }
+        this.thisHideOtherPopup.length = 0;
     }
 }
