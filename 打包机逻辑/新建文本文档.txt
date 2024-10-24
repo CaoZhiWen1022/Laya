@@ -1,0 +1,50 @@
+1. 安装 Node.js 和 Express
+npm install express
+2. 创建 Node.js 服务器
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// 解析 JSON 请求体
+app.use(express.json());
+
+// 提供静态文件服务
+app.use(express.static('public'));
+
+// 定义一个简单的 API 路由
+app.get('/api/data', (req, res) => {
+    res.json({ message: 'Hello from Node.js!' });
+});
+
+// 启动服务器
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
+3. 创建 HTML 文件
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js and HTML</title>
+</head>
+<body>
+    <h1>Node.js with HTML</h1>
+    <button id="fetchData">Fetch Data</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('fetchData').addEventListener('click', () => {
+            fetch('/api/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerText = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
+4. 启动服务器
+在终端中运行以下命令来启动服务器：
+node server.js
