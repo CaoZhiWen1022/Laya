@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目管理首页</title>
+    <!-- 引入外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- 配置 Tailwind CSS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        success: '#00B42A',
+                        warning: '#FF7D00',
+                        danger: '#F53F3F',
+                        gray: {
+                            100: '#F2F3F5',
+                            200: '#E5E6EB',
+                            300: '#C9CDD4',
+                            400: '#86909C',
+                            500: '#4E5969',
+                            600: '#272E3B',
+                            700: '#1D2129',
+                        }
+                    },
+                    boxShadow: {
+                        'modal': '0 4px 20px 0 rgba(0, 0, 0, 0.15)',
+                        'card-selected': '0 0 0 2px #165DFF, 0 4px 12px rgba(22, 93, 255, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- 引入全局样式 -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-100">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white border-b border-gray-200 py-3 px-6 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-2">
+            <i class="fa fa-rocket text-primary text-xl"></i>
+            <h1 class="text-xl font-bold text-gray-700">项目发布管理系统</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="text-gray-500 hover:text-primary transition-colors">
+                <i class="fa fa-bell-o text-lg"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <img src="https://picsum.photos/id/1005/40/40" alt="用户头像" class="w-8 h-8 rounded-full object-cover">
+                <span class="text-gray-600" id="current-username">管理员</span>
+            </div>
+            <button id="logout-btn" class="text-gray-500 hover:text-danger transition-colors">
+                <i class="fa fa-sign-out text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 p-6">
+        <div class="max-w-7xl mx-auto">
+            <!-- 页面标题与操作区 -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-700">项目管理中心</h2>
+                    <p class="text-gray-400 mt-1">管理您的所有项目</p>
+                </div>
+                <!-- 新增项目按钮 -->
+                <button id="add-project-btn"
+                    class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm hover:shadow">
+                    <i class="fa fa-plus"></i>
+                    <span>新增项目</span>
+                </button>
+            </div>
+
+            <!-- 项目列表卡片 -->
+            <div class="bg-white rounded-xl shadow-card p-6 mb-6">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                    <i class="fa fa-folder-open-o text-primary"></i>
+                    我的项目
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="project-grid">
+                    <!-- 项目卡片将通过JS动态加载 -->
+                    <div class="col-span-full flex justify-center items-center py-12 text-gray-400"
+                        id="project-loading">
+                        <i class="fa fa-spinner fa-spin mr-2"></i>
+                        <span>加载项目中...</span>
+                    </div>
+                    <div class="col-span-full hidden text-center py-12 text-gray-400" id="project-empty">
+                        <i class="fa fa-folder-o mr-2 text-2xl"></i>
+                        <p>暂无项目，请点击"新增项目"创建</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 日志弹窗（默认隐藏） -->
+    <div id="log-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-modal w-full max-w-2xl mx-4 transform transition-all duration-300 scale-95 opacity-0"
+            id="log-modal-content">
+            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                <h3 class="text-xl font-bold text-gray-700 flex items-center gap-2">
+                    <i class="fa fa-file-text-o text-primary"></i>
+                    <span id="log-modal-title">项目操作日志</span>
+                </h3>
+                <button id="close-log-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <!-- 日志内容区域 -->
+                    <div class="p-4 h-96 overflow-y-auto bg-gray-50 text-gray-600 text-sm" id="log-modal-content-area">
+                        <!-- 日志内容将在这里显示 -->
+                        <p class="text-gray-400 italic">加载日志中...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200 flex justify-end">
+                <button id="confirm-close-log"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 项目创建弹窗（默认隐藏） -->
+    <div id="project-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-modal w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0"
+            id="modal-content">
+            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                <h3 class="text-xl font-bold text-gray-700">创建新项目</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="project-form" class="p-6 space-y-4">
+                <!-- 项目名称 -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="project-name">项目名称 <span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="project-name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                        placeholder="请输入项目名称" required>
+                    <p class="text-xs text-gray-400 mt-1">请输入清晰易懂的项目名称，便于识别</p>
+                </div>
+
+                <!-- 项目路径 -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="project-path">文件夹名称 <span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="project-path"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                        placeholder="例如：/usr/local/projects/demo" required>
+                    <p class="text-xs text-gray-400 mt-1">桌面文件夹名称</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="project-svn">SVN <span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="project-svn"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                        placeholder="请输入SVN地址" required>
+                    <p class="text-xs text-gray-400 mt-1">SVN地址</p>
+                </div>
+
+                <!-- 表单底部按钮 -->
+                <div class="flex gap-3 pt-2">
+                    <button type="button" id="cancel-create"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all">
+                        取消
+                    </button>
+                    <button type="submit" id="confirm-create"
+                        class="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all">
+                        创建项目
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 成功提示弹窗（默认隐藏） -->
+    <div id="success-toast"
+        class="fixed top-20 right-6 bg-success text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50 hidden transform transition-all duration-300 translate-y-[-20px] opacity-0">
+        <i class="fa fa-check-circle text-xl"></i>
+        <span id="toast-message">操作成功！</span>
+    </div>
+
+    <!-- 引入首页脚本 -->
+    <script src="script.js" defer></script>
+</body>
+
+</html>

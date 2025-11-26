@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录</title>
+  <!-- 引入外部资源 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置 Tailwind CSS -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            gray: {
+              100: '#F5F7FA',
+              200: '#E4E7ED',
+              300: '#C0C6CF',
+              400: '#909399',
+              500: '#606266',
+              600: '#303133',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- 引入外部样式文件 -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <!-- 登录页面 -->
+  <div id="login-page" class="w-full max-w-md">
+    <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+      <!-- 标题 -->
+      <div class="text-center mb-8">
+        <h1 class="text-[2rem] font-bold text-gray-600 mb-2">账号登录</h1>
+        <p class="text-gray-400">欢迎回来，请输入账号信息登录</p>
+      </div>
+      
+      <!-- 登录表单 -->
+      <form class="space-y-5">
+        <!-- 账号输入 -->
+        <div class="relative">
+          <input 
+            type="text" 
+            id="login-username"
+            class="input-field w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all bg-gray-50"
+            placeholder=" "
+            required
+          >
+          <label class="input-label absolute left-4 top-3 text-gray-400 pointer-events-none">
+            <i class="fa fa-user mr-2"></i>账号
+          </label>
+        </div>
+        
+        <!-- 密码输入 -->
+        <div class="relative">
+          <input 
+            type="password" 
+            id="login-password"
+            class="input-field w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all bg-gray-50"
+            placeholder=" "
+            required
+          >
+          <label class="input-label absolute left-4 top-3 text-gray-400 pointer-events-none">
+            <i class="fa fa-lock mr-2"></i>密码
+          </label>
+          <button type="button" class="password-toggle absolute right-4 top-3 text-gray-400 hover:text-gray-600 transition-colors">
+            <i class="fa fa-eye-slash"></i>
+          </button>
+        </div>
+        
+        
+        <!-- 登录按钮 -->
+        <button 
+          type="button" 
+          id="login-btn"
+          class="w-full bg-primary text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 hover:bg-primary/90 hover:shadow-lg"
+        >
+          登录
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 引入外部脚本文件 -->
+  <script src="script.js" defer></script>
+</body>
+</html>

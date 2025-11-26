@@ -1,4 +1,0 @@
-更新git
-打包fgui
-npm run generate
-打包laya

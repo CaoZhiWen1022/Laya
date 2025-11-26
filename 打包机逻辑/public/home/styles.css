@@ -1,0 +1,258 @@
+/* 全局样式 */
+body {
+  background-color: #F7F8FA;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* 自定义工具类实现 */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #C9CDD4;
+  border-radius: 2px;
+}
+
+.project-active {
+  background-color: rgba(22, 93, 255, 0.1);
+  color: #165DFF;
+  border-color: #165DFF;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* 过渡动画 */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* 表格悬停效果 */
+.table-row-hover:hover {
+  background-color: #F7F8FA;
+}
+
+/* 项目列表项样式 */
+.project-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-item:hover {
+  background-color: #F2F3F5;
+}
+
+/* 表格行动画效果 */
+.table-row-hover {
+  transition: all 0.2s ease;
+}
+
+.table-row-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 按钮点击效果 */
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* 加载动画 */
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  /* 移动端隐藏部分列 */
+  .responsive-hide {
+    display: none;
+  }
+  
+  /* 调整布局 */
+  main {
+    flex-direction: column;
+  }
+  
+  aside {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #E5E6EB;
+  }
+  
+  .project-item {
+    padding: 0.4rem 0.6rem;
+  }
+  
+  /* 调整表格内边距 */
+  td, th {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+/* 输入框聚焦样式 */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #165DFF !important;
+  box-shadow: 0 0 0 1px rgba(22, 93, 255, 0.2) !important;
+}
+
+
+/* 弹窗相关样式 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* 表单输入框聚焦样式 */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #165DFF !important;
+  box-shadow: 0 0 0 1px rgba(22, 93, 255, 0.2) !important;
+}
+
+/* 按钮交互效果 */
+button:active {
+  transform: scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* 项目卡片悬停效果 */
+.border-gray-200:hover {
+  border-color: #165DFF !important;
+}
+
+/* 吐司提示样式 */
+#success-toast {
+  box-shadow: 0 4px 12px rgba(0, 180, 42, 0.2);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .grid-cols-1 md:grid-cols-2 lg:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .flex-col md:flex-row {
+    flex-direction: column;
+  }
+}
+
+/* 加载动画 */
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 防止弹窗被选中 */
+#modal-content {
+  user-select: none;
+}
+
+/* 表单标签必填项样式 */
+.text-danger {
+  color: #F53F3F;
+}
+
+/* 原有样式保持不变，添加以下补充样式 */
+
+/* 单选项目卡片样式 */
+[data-project-id] {
+  transition: all 0.2s ease;
+}
+
+[data-project-id]:hover {
+  transform: translateY(-2px);
+}
+
+/* 选中状态样式增强 */
+.border-primary.bg-primary\/5 {
+  background-color: rgba(22, 93, 255, 0.05);
+  border-color: #165DFF !important;
+}
+
+/* 表格行hover效果 */
+.table-row-hover:hover {
+  background-color: #F7F8FA;
+  transition: background-color 0.2s ease;
+}
+
+/* 发布记录区域样式 */
+#publish-record-section {
+  transition: all 0.3s ease;
+}
+
+/* 分页按钮样式优化 */
+#prev-page:hover:not(:disabled),
+#next-page:hover:not(:disabled) {
+  background-color: #F2F3F5;
+  color: #165DFF;
+  border-color: #165DFF;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  /* 移动端隐藏部分列 */
+  #record-table th:nth-child(1),
+  #record-table td:nth-child(1) {
+    display: none;
+  }
+  
+  .grid-cols-1 md:grid-cols-2 lg:grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 加载动画优化 */
+.fa-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 确保状态标签样式统一 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
